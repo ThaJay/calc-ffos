@@ -1,130 +1,86 @@
-$(document).ready(function () {
-        //calculator var
-    var ans             = $("#antwoord"),
-        is              = $("#is"),
-        reset           = $("#c"),
-        nummer          = $(".numberBtn"),
-        operator        = $(".operatorBtn"),
-        thisDoc         = $(document),
-        calcField       = "0",
-        isPressed       = false
 
-        //reset
-    function rst()
-    {
-        calcField = "0";
-        ans.text(calcField);
-    }
+window.onload = function () {
 
-        //naar het tekstveld!
-	function toField(nummer, autoReset)
-	{
-	    if (calcField === "0")
-	    {
-	        calcField = "";
-	    }
-	    else if (autoReset && isPressed)
-	    {
-	        rst();
-	        calcField = ""
-	    }
+    var ans = document.getElementById("antwoord"),
+        is = document.getElementById("is"),
+        reset = document.getElementById("c"),
+        nummer = document.querySelectorAll(".numberBtn"),
+        operator = document.querySelectorAll(".operatorBtn"),
+        calcField = "0",
+        isPressed = false,
+        ForEach = function (list, callback) {
+            Array.prototype.forEach.call(list, callback);
+        },
 
-	    calcField += nummer;
-	    ans.text(calcField);
-	    isPressed = false;
-	};
-    
-        //klik detectie en doorgeef functionaliteit
-	function Knop(jQ, autoReset) {
-	    jQ.click(function () {
-	        toField(jQ.text(), autoReset);
-	    });
-	}
+            //reset
+        rst = function () {
+            calcField = "0";
+            ans.textContent(calcField);
+        },
 
-	is.click(function () {
-	    calculate();
-	});
+            //naar het tekstveld!
+        toField = function (input, autoReset) {
+            if (calcField === "0") {
+                calcField = "";
+            }
+            else if (autoReset && isPressed) {
+                rst();
+                calcField = ""
+            }
+            calcField += input;
+            ans.textContent.replace(calcField);
+            isPressed = false;
+        },
 
-	reset.click(function () {
-	    rst()
-	});
-
-        //knopjesss
-	nummer.each(function () {
-	    Knop($(this), true)
-	});
-	operator.each(function () {
-	    Knop($(this), false)
-	});
-
-
-        //toetsenbord knopjes 
-	thisDoc.keydown(function (event) {
-	    var autRes = false
-        
-	        //nummers & operators
-	    if (
-            (event.which >= 48 && event.which <= 57) |
-            (event.which >= 96 && event.which <= 107) |
-            (event.which >= 109 && event.which <= 111 |
-            event.which == 189 |
-            event.which == 191)
-            )
-	    {
-            event.preventDefault();
+            //klik detectie en doorgeef functionaliteit
+        Knop = function (element, autoReset) {
+            ForEach(element, function (el) {
+                el.addEventListener('click', function () {
+                    toField(element.textContent, autoReset);
+                })
+            })
+        },
+            //Validatie en dan rekenen
+        calculate = function () {
+            this.calcField = this.calcField.replace(/[.]{2,}/g, ".");
 
             if (
-                (event.which >= 48 && event.which <= 57) |
-                (event.which >= 96 && event.which <= 107)
-                )
-            {autRes = true;}
-            
-            toField(event.key, autRes);
-	    }
+		        Boolean(this.calcField[0].match(/[*/]/g)) |
+		        Boolean(this.calcField.match(/[+\-/*]{2,}/g)) |
+		        Boolean(this.calcField.match(/[+\-/*][.]+[+\-/*]/g))
+		        ) {
+                this.ans.textContent("invalid");
+                this.isPressed = true;
+            }
 
-	        //backspace
-	    else if (event.which == 8 && calcField !== "0")
-	    {
-	        event.preventDefault();
-
-	        if (calcField.length > 1)
-	        {
-	            calcField = calcField.slice(0, (calcField.length - 1));
-	            ans.text(calcField);
-	        }
-	        else
-	        {rst();}
-	    }
-
-	        //enter
-	    else if (event.which == 13 | event.which == 108)
-	    {
-	        event.preventDefault();
-
-	        is.click();
-	    }
-	});
-
-    
-        //Rekenen maar!
-	function calculate()
-	{
-        calcField = calcField.replace(/[.]{2,}/g, ".");
-        if (
-            Boolean(calcField[0].match(/[*/]/g)) |
-            Boolean(calcField.match(/[+\-/*]{2,}/g)) |
-            Boolean(calcField.match(/[+\-/*][.]+[+\-/*]/g))
-            )
-        {
-            ans.text("invalid");
-            isPressed = true;
-        }
-        else
-        {
-            calcField = calcField.replace(/[^-()\d/*+.]/g, '');
-            calcField = Math.round(eval(calcField) * 1e3) / 1e3;
-            ans.text(calcField);
-            isPressed = true;
+            else {
+                this.calcField = this.calcField.replace(/[^-()\d/*+.]/g, '');
+                this.calcField = Math.round(eval(this.calcField) * 1e3) / 1e3;
+                this.ans.textContent(this.calcField);
+                this.isPressed = true;
+            };
         };
-    };
-});
+
+
+    ForEach(nummer, function (n) {
+        n.addEventListener('click', function () {
+            toField(nummer.textContent, true)
+        })
+    });
+
+
+
+    is.addEventListener('click', function () {
+        calculate();
+    });
+
+    reset.addEventListener('click', function () {
+        rst();
+    });
+    
+    /*
+    Knop(nummer, true);
+
+    Knop(operator, false)
+    */
+};
