@@ -10,7 +10,7 @@ window.onload = function () {
         calcField   = "0",
         isPressed   = false,
 
-            //De knopjes om op te drukken
+            //Een event listener per knopje
         knop = function (input, aReset) {
             for (var i = 0; i < input.length; i++) {
                 input[i].addEventListener('click', function () {
@@ -33,7 +33,7 @@ window.onload = function () {
             isPressed = false;
         },
 
-             //reset
+             //Reset
         rst = function () {
             calcField = "0";
             ans.textContent = calcField;
