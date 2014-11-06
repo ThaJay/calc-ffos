@@ -1,6 +1,7 @@
 
 window.onload = function () {
 
+        //Eerst normale variabelen, daarna de formules.
     var ans         = document.getElementById("antwoord"),
         is          = document.getElementById("is"),
         reset       = document.getElementById("c"),
@@ -8,17 +9,17 @@ window.onload = function () {
         operator    = document.querySelectorAll(".operatorBtn"),
         calcField   = "0",
         isPressed   = false,
-        ForEach     = function (list, callback) {
-            Array.prototype.forEach.call(list, callback);
+
+            //De knopjes om op te drukken
+        knop = function (input, aReset) {
+            for (var i = 0; i < input.length; i++) {
+                input[i].addEventListener('click', function () {
+                    toField(this.textContent, aReset);
+                });
+            };
         },
 
-            //reset
-        rst = function () {
-            calcField = "0";
-            ans.textContent = calcField;
-        },
-
-            //naar het tekstveld!
+            //Naar het tekstveld!
         toField = function (input, autoReset) {
             if (calcField === "0") {
                 calcField = "";
@@ -32,15 +33,12 @@ window.onload = function () {
             isPressed = false;
         },
 
-            //klik detectie en doorgeef functionaliteit
-/*        Knop = function (element, autoReset) {
-            ForEach(element, function (el) {
-                el.addEventListener('click', function () {
-                    toField(element.textContent, autoReset);
-                })
-            })
+             //reset
+        rst = function () {
+            calcField = "0";
+            ans.textContent = calcField;
         },
-*/
+
             //Validatie en dan rekenen
         calculate = function () {
             calcField = calcField.replace(/[.]{2,}/g, ".");
@@ -62,77 +60,21 @@ window.onload = function () {
             };
         };
 
-/*
-    for (var i in nummer) {
-        nummer[i].onclick = toField(nummer[i].innerHTML,true)
-    };
     
-    
-
-    toField(this.innerHTML, true)
-
-    
-    is.onclick = alert('1');
-    reset.onclick = rst();
-    calculate();
-
-    
-
-
-     ForEach(nummer, addEventListener('click', function () {
-        toField(this.textContent, true)
-    }));
-
-
-    for (var i = 0; i < nummer.length; i++) {
-        iter = nummer[i]
-        iter.addEventListener('click', function () {
-            toField(this.textContent, true);
-        });
-    };
-
-    for (var i = 0; i < operator.length; i++) {
-        iter = operator[i]
-        iter.addEventListener('click', function () {
-            toField(this.textContent, true);
-        });
-    };
-
-*/
-
-    knop = function (input, aReset) {
-        for (var i = 0; i < input.length; i++) {
-            input[i].addEventListener('click', function () {
-                toField(this.textContent, aReset);
-            });
-        };
-    }
-
+    //GAAN WE DAN
+    //Heuuu!!
     knop(nummer, true);
+
     knop(operator, false);
     
-
-    
-
-       
-    is.addEventListener('click', function () {
+    is.addEventListener('click', function ()
+    {
         calculate();
     });
 
-    reset.addEventListener('click', function () {
+    reset.addEventListener('click', function ()
+    {
         rst();
     });
 
-/*  
-    is.addEventListener('click', function () {
-        calculate();
-    });
-
-    
-    
-    
-    Knop(nummer, true);
-
-    Knop(operator, false)
-*/
 };
