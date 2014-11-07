@@ -27,7 +27,7 @@ td
 
 tr
 {
-    height:20vh;
+    height:18vh;
 }
 
 #antwoord
@@ -38,7 +38,7 @@ tr
 	padding-right:5%;
 }
 
-.btn
+button
 {
 	width:100%;
 	height:100%;
