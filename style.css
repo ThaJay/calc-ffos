@@ -11,6 +11,7 @@ body
 table
 {
     table-layout: fixed;
+    word-break: break-all;
 	font-size:3em;
 	margin-bottom:10px;
 	width:98%;
