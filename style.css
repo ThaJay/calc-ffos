@@ -13,8 +13,8 @@ table
 	font-size:3em;
 	margin-bottom:10px;
 	width:98%;
+    height:100%;
     margin:1%;
-	/*display: inline-block;*/
 	padding:0;
 	background-color:white;
 }
@@ -22,12 +22,12 @@ table
 td
 {
     padding:1%;
-    height:100%
+    /*height:100%*/
 }
 
 tr
 {
-    height:18%;
+    /*height:18%;*/
 }
 
 #antwoord
