@@ -1,4 +1,3 @@
-
 window.onload = function () {
 
         //Eerst normale variabelen, daarna de formules.
@@ -20,27 +19,37 @@ window.onload = function () {
         },
 
             //Naar het tekstveld!
-        toField = function (input, autoReset) {
-            if (calcField === "0") {
+        toField = function (input, autoReset)
+        {
+            if (calcField === "0")
+            {
                 calcField = "";
             }
-            else if (autoReset && isPressed) {
+            else if (autoReset && isPressed)
+            {
                 rst();
-                calcField = ""
-            }
+                calcField = "";
+            };
+            // Boolean(calcField.match(/e/))
+            if (isPressed && calcField != "")
+            {
+                calcField = "(" + calcField + ")";
+            };
             calcField += input;
             ans.textContent = calcField;
             isPressed = false;
         },
 
              //Reset
-        rst = function () {
+        rst = function ()
+        {
             calcField = "0";
             ans.textContent = calcField;
         },
 
             //Validatie en dan rekenen
-        calculate = function () {
+        calculate = function ()
+        {
             calcField = calcField.replace(/[.]{2,}/g, ".");
 
             if (
@@ -52,10 +61,19 @@ window.onload = function () {
                 isPressed = true;
             }
 
-            else {
-                calcField = calcField.replace(/[^-()\d/*+.]/g, '');
-                calcField = Math.round(eval(calcField) * 1e3) / 1e3;
-                ans.textContent=calcField;
+            else
+            {
+                //calcField.replace(/^[^0-9+\-*/().]*$/, "");
+                calcField = eval(calcField)
+                if (parseFloat(calcField) > 999999 | parseFloat(calcField) < 0.000001)
+                {
+                    calcField = calcField.toPrecision(4);
+                }
+                else
+                {
+                    Math.round(calcField * 1e3) / 1e3;
+                }
+                ans.textContent = calcField;
                 isPressed = true;
             };
         };
