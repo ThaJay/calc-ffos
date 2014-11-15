@@ -7,9 +7,10 @@ window.onload = function () {
         nummer      = document.querySelectorAll(".numberBtn"),
         operator    = document.querySelectorAll(".operatorBtn"),
         calcField   = "0",
+        calcDisp    = "0",
         isPressed   = false,
 
-            //Een event listener per knopje
+            //Een event listener per knopje, dit is de magie.
         knop = function (input, aReset) {
             for (var i = 0; i < input.length; i++) {
                 input[i].addEventListener('click', function () {
@@ -21,22 +22,36 @@ window.onload = function () {
             //Naar het tekstveld!
         toField = function (input, autoReset)
         {
-            if (calcField === "0")
-            {
-                calcField = "";
-            }
-            else if (autoReset && isPressed)
+            if ((autoReset && isPressed) || calcField === "0")
             {
                 rst();
+                calcDisp = "";
                 calcField = "";
             };
-            // Boolean(calcField.match(/e/))
+
             if (isPressed && calcField != "")
             {
                 calcField = "(" + calcField + ")";
             };
+
+            /*
+            if (calcDisp.length != 0)
+            {
+                if (Boolean(calcDisp[calcDisp.length - 1].match(/[0-9]/)) == false)
+                {
+                    calcDisp += " " + input;
+                };
+            }
+            else
+            {
+                calcDisp += input;
+            };
+            */
+
+            calcDisp += input;
+
             calcField += input;
-            ans.textContent = calcField;
+            ans.textContent = calcDisp;
             isPressed = false;
         },
 
@@ -71,9 +86,12 @@ window.onload = function () {
                 }
                 else
                 {
+                    //Math.round(calcField[0] * Math.pow(10, calcfield.length)) / Math.pow(10, calcfield.length);
+
                     Math.round(calcField * 1e3) / 1e3;
                 }
-                ans.textContent = calcField;
+                calcDisp = calcField;
+                ans.textContent = calcDisp;
                 isPressed = true;
             };
         };
